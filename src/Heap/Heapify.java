@@ -6,13 +6,14 @@ import java.util.Arrays;
 public class Heapify {
     public static void main(String[] args) {
         int arr[] = {54,53,55,52,50};
-        for(int i=0;i<arr.length-2;i++){
-            heapify(arr, arr.length-1, i);
+        int n = arr.length-1;
+        for(int i=(n/2)-1; i>=0; i--){
+            heapify(arr, n, i);
         }
         System.out.println(Arrays.toString(arr));
     }
 
-    public static void heapify(int[] arr, int length, int i){
+    public static void heapify(int[] arr, int   length, int i){
         int largest = i;
         int l = 2*i+1;
         int r = 2*i+2;
