@@ -1,9 +1,6 @@
 package Practice.BinaryTree;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreeImplementation {
     static Scanner sc = new Scanner(System.in);
@@ -40,6 +37,39 @@ public class BinaryTreeImplementation {
         newNode.right = createBinaryTree();
 
         return newNode;
+    }
+    public static int  heightOfBinaryTree(Node root){
+        if(root == null){
+            return 0;
+        }
+        return Math.max(heightOfBinaryTree(root.left),heightOfBinaryTree(root.right))+1;
+    }
+    public static void levelOrderTraversal(Node root){
+        int height = heightOfBinaryTree(root);
+
+        for(int i=1; i<=height; i++){
+            printCurrentLevel(root,i);
+        }
+    }
+
+    public static void printCurrentLevel(Node root, int level){
+        if(root == null){
+            return;
+        }
+        if(level == 1){
+            System.out.print(root.data+ " ");
+        }
+        else if(level > 1){
+            printCurrentLevel(root.left, level-1);
+            printCurrentLevel(root.right, level-1);
+        }
+
+    }
+    public static int sizeOfBinaryTree(Node root){
+        if(root == null){
+            return 0;
+        }
+        return (sizeOfBinaryTree(root.left) + sizeOfBinaryTree(root.right)+1);
     }
 
     public static void preOrderRecursion(Node root) {
@@ -107,6 +137,51 @@ public class BinaryTreeImplementation {
                 list.add(root.data);
 
                 root = root.right;
+            }
+        }
+        return list;
+    }
+    public static ArrayList<Integer> postOrderTwo(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+        Stack<Node> stack1 = new Stack<>();
+        Stack<Node> stack2 = new Stack<>();
+
+        stack1.push(root);
+        while(!stack1.isEmpty()) {
+            root = stack1.pop();
+            stack2.push(root);
+            if(root.left != null){
+                stack1.push(root.left);
+            }
+            if(root.right != null){
+                stack1.push(root.right);
+            }
+
+        }
+
+        while(!stack2.isEmpty()){
+            root = stack2.pop();
+            list.add(root.data);
+        }
+        return list;
+    }
+
+    public static ArrayList<Integer> levelOrderTraversalUsingQueue(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+
+        Queue<Node> q = new LinkedList<>();
+
+        q.add(root);
+
+        while(!q.isEmpty()){
+            root = q.poll();
+            list.add(root.data);
+
+            if(root.left != null){
+                q.add(root.left);
+            }
+            if(root.right != null){
+                q.add(root.right);
             }
         }
         return list;
