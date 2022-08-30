@@ -14,6 +14,9 @@ public class BinaryTreeImplementation {
             System.out.print("Postorder : ");
             postOrderRecursion(root);
             System.out.println();
+            postOrderTwo(root);
+            System.out.println();
+           System.out.println(postOrder(root));
 
             System.out.print("Inorder : ");
             inOrderRecursion(root);
@@ -124,18 +127,16 @@ public class BinaryTreeImplementation {
         ArrayList<Integer> list = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
 
-        while (true) {
+        while(true){
             if(root != null){
                 stack.push(root);
                 root = root.left;
             }
-
             else{
                 if(stack.isEmpty()) break;
 
                 root = stack.pop();
                 list.add(root.data);
-
                 root = root.right;
             }
         }
@@ -162,6 +163,39 @@ public class BinaryTreeImplementation {
         while(!stack2.isEmpty()){
             root = stack2.pop();
             list.add(root.data);
+        }
+        return list;
+    }
+
+    public static ArrayList<Integer> postOrder(Node root){
+        ArrayList<Integer> list = new ArrayList<>();
+
+        if(root == null) return list;
+
+        Stack<Node> stack = new Stack<>();
+
+        Node current = root;
+
+        while(current != null || !stack.isEmpty()){
+            if(current != null){
+                stack.push(current);
+                current = current.left;
+            }
+            else{
+                Node temp = stack.peek().right;
+                if(temp == null){
+                    temp = stack.pop();
+                    list.add(temp.data);
+
+                    while(!stack.isEmpty() && temp == stack.peek().right){
+                        temp = stack.pop();
+                        list.add(temp.data);
+                    }
+                }
+                else{
+                    current = temp;
+                }
+            }
         }
         return list;
     }
